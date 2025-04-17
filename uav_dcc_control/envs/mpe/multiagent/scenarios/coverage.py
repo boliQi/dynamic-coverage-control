@@ -42,7 +42,7 @@ class Scenario(BaseScenario):
 
         world.agents = [Agent() for _ in range(num_agents)]  # 代表UAV, size为覆盖面积
         world.landmarks = [Landmark() for _ in range(num_landmarks)]
-
+        #world.agents 是一个包含所有智能体的列表。enumerate 函数用于同时获取列表中每个元素的索引（i）和对应的元素（agent）。例如，如果 world.agents 有 3 个智能体，则 i 会依次为 0, 1, 2，而 agent 则是对应的智能体对象。 
         for i, agent in enumerate(world.agents):
             agent.name = "agent_%d" % i
             agent.collide = False

@@ -14,8 +14,10 @@ def make_env(cfg, **kwargs):
         def init_env():
             if "uav_dcc" in cfg.env_file:
                 env_file = importlib.import_module("envs." + cfg.env_file)
+                # 这行代码的作用是从 env_file 中获取名为 cfg.env_class 的类或属性，并将其赋值给变量 Env。
+                # 这样，Env 就可以用作一个类，后续可以通过 Env() 实例化环境对象。
                 Env = getattr(env_file, cfg.env_class)
-
+                # 通过scenario_name从env_file获取场景类给定对应的scenario为coverage
                 env = Env(
                     scenario=cfg.scenario_name,
                     num_agents=cfg.num_agents,
@@ -43,6 +45,8 @@ def make_env(cfg, **kwargs):
     #     else:
     #         pos_pois = None
 
+
+    # make_env传完参数后执行这一行，按线程数创建环境
     if cfg.n_rollout_threads == 1:
         return DummyVecEnv([get_env_fn(0)])
     else:

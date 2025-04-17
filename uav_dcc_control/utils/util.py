@@ -5,6 +5,20 @@ import torch
 
 
 def seed(_seed):
+    """
+    Sets the seed for various random number generators to ensure reproducibility.
+
+    Args:
+        _seed (int): The seed value to be used for random number generation.
+
+    This function sets the seed for:
+    - Python's built-in `random` module.
+    - PyTorch's random number generator (both CPU and GPU, if CUDA is available).
+    - NumPy's random number generator.
+
+    Ensuring consistent seeds across these libraries helps in achieving reproducible results
+    in experiments and simulations.
+    """
     random.seed(_seed)
     torch.random.manual_seed(_seed)
     if torch.cuda.is_available():

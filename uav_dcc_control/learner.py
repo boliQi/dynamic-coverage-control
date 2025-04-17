@@ -20,6 +20,7 @@ from utils import util as utl, pytorch_utils as ptu
 
 class Learner:
     def __init__(self, cfg: DictConfig):
+        # Convert the OmegaConf configuration object to a simple Namespace object for easier attribute access
         self.cfg = Namespace(**OmegaConf.to_container(cfg, resolve=True))
         utl.seed(self.cfg.seed)  # set seed for random, torch and np
 
