@@ -1,0 +1,183 @@
+_wandb:
+    value:
+        cli_version: 0.19.9
+        m: []
+        python_version: 3.9.0
+        t:
+            "1":
+                - 1
+                - 55
+            "2":
+                - 1
+                - 55
+            "3":
+                - 13
+                - 16
+                - 23
+                - 55
+                - 61
+            "4": 3.9.0
+            "5": 0.19.9
+            "8":
+                - 5
+            "12": 0.19.9
+            "13": linux-x86_64
+action_dim_n:
+    value:
+        - 2
+        - 2
+        - 2
+        - 2
+actor_lr:
+    value: 0.0005
+algo_file:
+    value: mappo
+algo_hidden_size:
+    value: 256
+clip_param:
+    value: 0.2
+comm_force_scale:
+    value: 0
+comm_r_scale:
+    value: 0.95
+critic_lr:
+    value: 0.0005
+data_chunk_length:
+    value: 10
+entropy_coef:
+    value: 0.01
+env_class:
+    value: DCEnv
+env_file:
+    value: mpe.uav_dcc
+eval_interval:
+    value: 40
+gae_lambda:
+    value: 0.95
+gain:
+    value: 0.01
+gamma:
+    value: 0.99
+hidden_sizes_mlp:
+    value:
+        - 64
+huber_delta:
+    value: 10
+ifi:
+    value: 0.1
+layer_N:
+    value: 1
+load_buffer_path:
+    value: None
+load_model:
+    value: false
+load_model_path:
+    value: results/dcc/xxxx_xxxx_sdx/models_xxx.pt
+log_interval:
+    value: 1
+log_wandb:
+    value: true
+lr:
+    value: 0.0005
+main_save_path:
+    value: results/
+max_ep_len:
+    value: 150
+max_grad_norm:
+    value: 10
+n_eval_rollout_threads:
+    value: 1
+n_iters:
+    value: 500
+n_render_rollout_threads:
+    value: 1
+n_rollout_threads:
+    value: 16
+n_training_threads:
+    value: 32
+num_agents:
+    value: 4
+num_mini_batch:
+    value: 1
+num_pois:
+    value: 20
+obs_dim_n:
+    value:
+        - 110
+        - 110
+        - 110
+        - 110
+opti_eps:
+    value: 1e-05
+output_path:
+    value: results/uav_dcc/0420_2048_sd0
+ppo_epoch:
+    value: 15
+r_comm:
+    value: 0.4
+r_cover:
+    value: 0.2
+recurrent_N:
+    value: 1
+render_episodes:
+    value: 5
+render_interval:
+    value: 50
+save_gifs:
+    value: true
+save_interval:
+    value: 100
+save_model:
+    value: true
+save_name:
+    value: uav_dcc
+scenario_name:
+    value: coverage
+seed:
+    value: 0
+share_policy:
+    value: false
+stacked_frames:
+    value: 1
+use_ReLU:
+    value: true
+use_centralized_V:
+    value: true
+use_clipped_value_loss:
+    value: true
+use_feature_normalization:
+    value: true
+use_gae:
+    value: true
+use_huber_loss:
+    value: true
+use_linear_lr_decay:
+    value: true
+use_max_grad_norm:
+    value: true
+use_naive_recurrent_policy:
+    value: false
+use_obs_instead_of_state:
+    value: false
+use_orthogonal:
+    value: true
+use_policy_active_masks:
+    value: true
+use_popart:
+    value: false
+use_proper_time_limits:
+    value: false
+use_recurrent_policy:
+    value: false
+use_render:
+    value: false
+use_stacked_frames:
+    value: false
+use_value_active_masks:
+    value: true
+use_valuenorm:
+    value: true
+value_loss_coef:
+    value: 1
+weight_decay:
+    value: 0

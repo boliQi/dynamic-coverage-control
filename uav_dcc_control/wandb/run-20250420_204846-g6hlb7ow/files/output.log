@@ -1,0 +1,276 @@
+initial learner, done
+
+******** iter: 1, iter_time: 3.36s, total_time: 3.36s
+rollout_info, reward: -7501.6600, coverage_rate: 0.5375
+rl_train_info, value_loss: 1.4159, policy_loss: -0.0081, dist_entropy: 2.8447, actor_grad_norm: 0.3602, critic_grad_norm: 7.3276, ratio: 0.9989
+test_rollout_info
+
+******** iter: 2, iter_time: 2.88s, total_time: 6.24s
+rollout_info, reward: -6127.4824, coverage_rate: 0.4969
+rl_train_info, value_loss: 0.2637, policy_loss: -0.0079, dist_entropy: 2.8560, actor_grad_norm: 0.7046, critic_grad_norm: 5.9828, ratio: 0.9997
+test_rollout_info
+
+******** iter: 3, iter_time: 2.98s, total_time: 9.22s
+rollout_info, reward: -6370.3561, coverage_rate: 0.5437
+rl_train_info, value_loss: 0.2828, policy_loss: -0.0050, dist_entropy: 2.8619, actor_grad_norm: 0.6582, critic_grad_norm: 4.8026, ratio: 0.9996
+test_rollout_info
+
+******** iter: 4, iter_time: 2.93s, total_time: 12.15s
+rollout_info, reward: -5696.7466, coverage_rate: 0.6125
+rl_train_info, value_loss: 0.2337, policy_loss: -0.0067, dist_entropy: 2.8711, actor_grad_norm: 0.5874, critic_grad_norm: 3.7140, ratio: 0.9994
+test_rollout_info
+
+******** iter: 5, iter_time: 2.80s, total_time: 14.94s
+rollout_info, reward: -5235.4874, coverage_rate: 0.5938
+rl_train_info, value_loss: 0.1515, policy_loss: -0.0082, dist_entropy: 2.8779, actor_grad_norm: 0.7157, critic_grad_norm: 3.1260, ratio: 1.0000
+test_rollout_info
+
+******** iter: 6, iter_time: 2.85s, total_time: 17.79s
+rollout_info, reward: -4617.4142, coverage_rate: 0.5375
+rl_train_info, value_loss: 0.0454, policy_loss: -0.0068, dist_entropy: 2.8901, actor_grad_norm: 0.6731, critic_grad_norm: 2.3099, ratio: 1.0002
+test_rollout_info
+
+******** iter: 7, iter_time: 2.80s, total_time: 20.60s
+rollout_info, reward: -5123.4042, coverage_rate: 0.6000
+rl_train_info, value_loss: 0.2952, policy_loss: -0.0028, dist_entropy: 2.8986, actor_grad_norm: 0.2983, critic_grad_norm: 2.4373, ratio: 0.9997
+test_rollout_info
+
+******** iter: 8, iter_time: 2.84s, total_time: 23.44s
+rollout_info, reward: -6285.2898, coverage_rate: 0.6156
+rl_train_info, value_loss: 0.2961, policy_loss: -0.0069, dist_entropy: 2.9020, actor_grad_norm: 0.8912, critic_grad_norm: 3.4467, ratio: 0.9999
+test_rollout_info
+
+******** iter: 9, iter_time: 2.85s, total_time: 26.30s
+rollout_info, reward: -4831.9707, coverage_rate: 0.5406
+rl_train_info, value_loss: 0.0477, policy_loss: -0.0066, dist_entropy: 2.9023, actor_grad_norm: 0.4117, critic_grad_norm: 1.9684, ratio: 0.9995
+test_rollout_info
+
+******** iter: 10, iter_time: 2.90s, total_time: 29.19s
+rollout_info, reward: -5252.0328, coverage_rate: 0.5406
+rl_train_info, value_loss: 0.0865, policy_loss: -0.0054, dist_entropy: 2.9013, actor_grad_norm: 0.6679, critic_grad_norm: 1.5855, ratio: 0.9995
+test_rollout_info
+
+******** iter: 11, iter_time: 2.78s, total_time: 31.98s
+rollout_info, reward: -4633.4398, coverage_rate: 0.5625
+rl_train_info, value_loss: 0.1379, policy_loss: -0.0049, dist_entropy: 2.8980, actor_grad_norm: 0.5558, critic_grad_norm: 1.3807, ratio: 1.0003
+test_rollout_info
+
+******** iter: 12, iter_time: 2.73s, total_time: 34.71s
+rollout_info, reward: -3885.2355, coverage_rate: 0.5594
+rl_train_info, value_loss: 0.0069, policy_loss: -0.0061, dist_entropy: 2.8984, actor_grad_norm: 1.2475, critic_grad_norm: 0.3714, ratio: 0.9985
+test_rollout_info
+
+******** iter: 13, iter_time: 2.85s, total_time: 37.55s
+rollout_info, reward: -4917.5295, coverage_rate: 0.6313
+rl_train_info, value_loss: 0.2170, policy_loss: -0.0043, dist_entropy: 2.8981, actor_grad_norm: 0.5710, critic_grad_norm: 1.8459, ratio: 1.0001
+test_rollout_info
+
+******** iter: 14, iter_time: 2.70s, total_time: 40.26s
+rollout_info, reward: -3894.9792, coverage_rate: 0.6500
+rl_train_info, value_loss: 0.0675, policy_loss: -0.0071, dist_entropy: 2.9035, actor_grad_norm: 0.5174, critic_grad_norm: 0.5266, ratio: 1.0007
+test_rollout_info
+
+******** iter: 15, iter_time: 2.71s, total_time: 42.97s
+rollout_info, reward: -3601.0517, coverage_rate: 0.6344
+rl_train_info, value_loss: 0.0234, policy_loss: -0.0042, dist_entropy: 2.9135, actor_grad_norm: 0.5322, critic_grad_norm: 0.5971, ratio: 1.0010
+test_rollout_info
+
+******** iter: 16, iter_time: 2.91s, total_time: 45.89s
+rollout_info, reward: -3908.0264, coverage_rate: 0.6500
+rl_train_info, value_loss: 0.0351, policy_loss: -0.0049, dist_entropy: 2.9163, actor_grad_norm: 0.4559, critic_grad_norm: 0.5477, ratio: 1.0005
+test_rollout_info
+
+******** iter: 17, iter_time: 2.77s, total_time: 48.65s
+rollout_info, reward: -4365.9633, coverage_rate: 0.6969
+rl_train_info, value_loss: 0.0959, policy_loss: -0.0052, dist_entropy: 2.9124, actor_grad_norm: 0.4807, critic_grad_norm: 0.4693, ratio: 0.9996
+test_rollout_info
+
+******** iter: 18, iter_time: 2.76s, total_time: 51.42s
+rollout_info, reward: -3700.5240, coverage_rate: 0.6875
+rl_train_info, value_loss: 0.1044, policy_loss: -0.0037, dist_entropy: 2.9110, actor_grad_norm: 0.4398, critic_grad_norm: 0.5980, ratio: 1.0003
+test_rollout_info
+
+******** iter: 19, iter_time: 2.66s, total_time: 54.08s
+rollout_info, reward: -3683.0881, coverage_rate: 0.7031
+rl_train_info, value_loss: 0.1022, policy_loss: -0.0055, dist_entropy: 2.9143, actor_grad_norm: 0.4750, critic_grad_norm: 0.9748, ratio: 1.0002
+test_rollout_info
+
+******** iter: 20, iter_time: 2.66s, total_time: 56.74s
+rollout_info, reward: -3691.7327, coverage_rate: 0.6687
+rl_train_info, value_loss: 0.0411, policy_loss: -0.0058, dist_entropy: 2.9181, actor_grad_norm: 0.5634, critic_grad_norm: 0.6613, ratio: 0.9994
+test_rollout_info
+
+******** iter: 21, iter_time: 2.65s, total_time: 59.39s
+rollout_info, reward: -3540.2831, coverage_rate: 0.6469
+rl_train_info, value_loss: 0.0322, policy_loss: -0.0064, dist_entropy: 2.9286, actor_grad_norm: 0.4466, critic_grad_norm: 0.5926, ratio: 0.9986
+test_rollout_info
+
+******** iter: 22, iter_time: 2.62s, total_time: 62.01s
+rollout_info, reward: -3398.5013, coverage_rate: 0.6344
+rl_train_info, value_loss: 0.0141, policy_loss: -0.0097, dist_entropy: 2.9379, actor_grad_norm: 0.5117, critic_grad_norm: 0.3065, ratio: 1.0003
+test_rollout_info
+
+******** iter: 23, iter_time: 2.63s, total_time: 64.64s
+rollout_info, reward: -3451.2790, coverage_rate: 0.6531
+rl_train_info, value_loss: 0.0191, policy_loss: -0.0097, dist_entropy: 2.9414, actor_grad_norm: 0.5157, critic_grad_norm: 0.1486, ratio: 0.9992
+test_rollout_info
+
+******** iter: 24, iter_time: 2.72s, total_time: 67.36s
+rollout_info, reward: -3555.9302, coverage_rate: 0.6687
+rl_train_info, value_loss: 0.0321, policy_loss: -0.0090, dist_entropy: 2.9380, actor_grad_norm: 0.8355, critic_grad_norm: 0.1558, ratio: 1.0004
+test_rollout_info
+
+******** iter: 25, iter_time: 2.63s, total_time: 69.99s
+rollout_info, reward: -3267.7662, coverage_rate: 0.6375
+rl_train_info, value_loss: 0.0230, policy_loss: -0.0094, dist_entropy: 2.9403, actor_grad_norm: 0.8853, critic_grad_norm: 0.3286, ratio: 1.0005
+test_rollout_info
+
+******** iter: 26, iter_time: 2.60s, total_time: 72.60s
+rollout_info, reward: -3687.3241, coverage_rate: 0.6594
+rl_train_info, value_loss: 0.1393, policy_loss: -0.0058, dist_entropy: 2.9398, actor_grad_norm: 0.2897, critic_grad_norm: 1.1800, ratio: 1.0001
+test_rollout_info
+
+******** iter: 27, iter_time: 2.77s, total_time: 75.36s
+rollout_info, reward: -3342.7626, coverage_rate: 0.6469
+rl_train_info, value_loss: 0.0298, policy_loss: -0.0114, dist_entropy: 2.9363, actor_grad_norm: 0.6783, critic_grad_norm: 0.4255, ratio: 0.9994
+test_rollout_info
+
+******** iter: 28, iter_time: 2.79s, total_time: 78.16s
+rollout_info, reward: -3686.9074, coverage_rate: 0.7063
+rl_train_info, value_loss: 0.1433, policy_loss: -0.0096, dist_entropy: 2.9350, actor_grad_norm: 0.6847, critic_grad_norm: 0.4989, ratio: 1.0015
+test_rollout_info
+
+******** iter: 29, iter_time: 2.72s, total_time: 80.88s
+rollout_info, reward: -3320.6822, coverage_rate: 0.7000
+rl_train_info, value_loss: 0.0839, policy_loss: -0.0083, dist_entropy: 2.9336, actor_grad_norm: 0.6326, critic_grad_norm: 0.2883, ratio: 0.9995
+test_rollout_info
+
+******** iter: 30, iter_time: 2.79s, total_time: 83.68s
+rollout_info, reward: -4549.4869, coverage_rate: 0.7188
+rl_train_info, value_loss: 0.2405, policy_loss: -0.0088, dist_entropy: 2.9285, actor_grad_norm: 0.3831, critic_grad_norm: 1.9409, ratio: 1.0005
+test_rollout_info
+
+******** iter: 31, iter_time: 2.84s, total_time: 86.51s
+rollout_info, reward: -4312.8806, coverage_rate: 0.7063
+rl_train_info, value_loss: 0.1578, policy_loss: -0.0083, dist_entropy: 2.9249, actor_grad_norm: 0.3958, critic_grad_norm: 1.4176, ratio: 0.9991
+test_rollout_info
+
+******** iter: 32, iter_time: 2.90s, total_time: 89.41s
+rollout_info, reward: -3897.5666, coverage_rate: 0.7281
+rl_train_info, value_loss: 0.1425, policy_loss: -0.0083, dist_entropy: 2.9207, actor_grad_norm: 0.4463, critic_grad_norm: 0.3635, ratio: 1.0001
+test_rollout_info
+
+******** iter: 33, iter_time: 2.86s, total_time: 92.28s
+rollout_info, reward: -4586.3881, coverage_rate: 0.7312
+rl_train_info, value_loss: 0.2254, policy_loss: -0.0100, dist_entropy: 2.9181, actor_grad_norm: 0.6468, critic_grad_norm: 1.9797, ratio: 1.0006
+test_rollout_info
+
+******** iter: 34, iter_time: 2.78s, total_time: 95.06s
+rollout_info, reward: -5275.0308, coverage_rate: 0.7437
+rl_train_info, value_loss: 1.2053, policy_loss: -0.0091, dist_entropy: 2.9131, actor_grad_norm: 0.9524, critic_grad_norm: 3.7120, ratio: 1.0005
+test_rollout_info
+
+******** iter: 35, iter_time: 3.17s, total_time: 98.24s
+rollout_info, reward: -3769.9215, coverage_rate: 0.7375
+rl_train_info, value_loss: 0.1697, policy_loss: -0.0065, dist_entropy: 2.9124, actor_grad_norm: 0.5034, critic_grad_norm: 2.9513, ratio: 1.0007
+test_rollout_info
+
+******** iter: 36, iter_time: 2.92s, total_time: 101.16s
+rollout_info, reward: -4517.3209, coverage_rate: 0.7406
+rl_train_info, value_loss: 0.1844, policy_loss: -0.0100, dist_entropy: 2.9149, actor_grad_norm: 0.4376, critic_grad_norm: 0.5716, ratio: 1.0015
+test_rollout_info
+
+******** iter: 37, iter_time: 2.84s, total_time: 104.00s
+rollout_info, reward: -4321.7928, coverage_rate: 0.7406
+rl_train_info, value_loss: 0.2510, policy_loss: -0.0094, dist_entropy: 2.9156, actor_grad_norm: 0.4979, critic_grad_norm: 1.4491, ratio: 0.9993
+test_rollout_info
+
+******** iter: 38, iter_time: 2.79s, total_time: 106.79s
+rollout_info, reward: -4441.7583, coverage_rate: 0.7312
+rl_train_info, value_loss: 0.2180, policy_loss: -0.0106, dist_entropy: 2.9183, actor_grad_norm: 0.7128, critic_grad_norm: 1.2428, ratio: 0.9996
+test_rollout_info
+
+******** iter: 39, iter_time: 2.59s, total_time: 109.38s
+rollout_info, reward: -3220.9993, coverage_rate: 0.7469
+rl_train_info, value_loss: 0.0972, policy_loss: -0.0114, dist_entropy: 2.9219, actor_grad_norm: 0.7030, critic_grad_norm: 0.6243, ratio: 1.0004
+test_rollout_info
+
+******** iter: 40, iter_time: 3.37s, total_time: 112.74s
+rollout_info, reward: -3226.1430, coverage_rate: 0.7406
+rl_train_info, value_loss: 0.2764, policy_loss: -0.0113, dist_entropy: 2.9281, actor_grad_norm: 0.6349, critic_grad_norm: 0.8340, ratio: 1.0004
+test_rollout_info, reward: -5455.2046, coverage_rate: 0.7500
+
+******** iter: 41, iter_time: 2.78s, total_time: 115.53s
+rollout_info, reward: -3448.7364, coverage_rate: 0.7500
+rl_train_info, value_loss: 0.1119, policy_loss: -0.0089, dist_entropy: 2.9376, actor_grad_norm: 0.4920, critic_grad_norm: 0.7256, ratio: 0.9984
+test_rollout_info
+
+******** iter: 42, iter_time: 2.73s, total_time: 118.26s
+rollout_info, reward: -3256.0323, coverage_rate: 0.7281
+rl_train_info, value_loss: 0.0808, policy_loss: -0.0091, dist_entropy: 2.9409, actor_grad_norm: 0.6662, critic_grad_norm: 0.9419, ratio: 0.9994
+test_rollout_info
+
+******** iter: 43, iter_time: 2.69s, total_time: 120.95s
+rollout_info, reward: -2800.4242, coverage_rate: 0.7156
+rl_train_info, value_loss: 0.0426, policy_loss: -0.0113, dist_entropy: 2.9424, actor_grad_norm: 0.5147, critic_grad_norm: 0.9103, ratio: 1.0003
+test_rollout_info
+
+******** iter: 44, iter_time: 2.62s, total_time: 123.57s
+rollout_info, reward: -3592.1183, coverage_rate: 0.7750
+rl_train_info, value_loss: 0.3401, policy_loss: -0.0108, dist_entropy: 2.9381, actor_grad_norm: 0.8689, critic_grad_norm: 1.3521, ratio: 0.9998
+test_rollout_info
+
+******** iter: 45, iter_time: 2.73s, total_time: 126.30s
+rollout_info, reward: -4005.0940, coverage_rate: 0.7625
+rl_train_info, value_loss: 0.5058, policy_loss: -0.0054, dist_entropy: 2.9409, actor_grad_norm: 0.4821, critic_grad_norm: 1.7082, ratio: 0.9997
+test_rollout_info
+
+******** iter: 46, iter_time: 2.76s, total_time: 129.06s
+rollout_info, reward: -3335.8471, coverage_rate: 0.7531
+rl_train_info, value_loss: 0.1039, policy_loss: -0.0110, dist_entropy: 2.9485, actor_grad_norm: 0.6412, critic_grad_norm: 0.7495, ratio: 1.0013
+test_rollout_info
+
+******** iter: 47, iter_time: 2.69s, total_time: 131.75s
+rollout_info, reward: -3059.4866, coverage_rate: 0.7531
+rl_train_info, value_loss: 0.0469, policy_loss: -0.0100, dist_entropy: 2.9534, actor_grad_norm: 0.7259, critic_grad_norm: 0.7025, ratio: 0.9984
+test_rollout_info
+
+******** iter: 48, iter_time: 3.07s, total_time: 134.82s
+rollout_info, reward: -3566.7978, coverage_rate: 0.7219
+rl_train_info, value_loss: 0.0963, policy_loss: -0.0096, dist_entropy: 2.9521, actor_grad_norm: 0.7752, critic_grad_norm: 0.6760, ratio: 1.0013
+test_rollout_info
+
+******** iter: 49, iter_time: 2.87s, total_time: 137.69s
+rollout_info, reward: -3201.1502, coverage_rate: 0.7562
+rl_train_info, value_loss: 0.0744, policy_loss: -0.0089, dist_entropy: 2.9464, actor_grad_norm: 0.3594, critic_grad_norm: 0.3440, ratio: 0.9992
+test_rollout_info
+Traceback (most recent call last):
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/train.py", line 29, in <module>
+    learner.train()
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/learner.py", line 155, in train
+    self.rollout(self.render_buffer, self.render_envs, is_render=True, iter_=iter_)
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/learner.py", line 210, in rollout
+    r_envs.render()
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/envs/wrappers.py", line 259, in render
+    env.render(mode=mode)
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/envs/mpe/uav_dcc.py", line 58, in render
+    return self.env.render(mode=mode)
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/envs/mpe/multiagent/environment.py", line 229, in render
+    from . import rendering
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/envs/mpe/multiagent/rendering.py", line 23, in <module>
+    from pyglet.gl import *
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/lib/python3.9/site-packages/pyglet/gl/__init__.py", line 232, in <module>
+    import pyglet.window
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/lib/python3.9/site-packages/pyglet/window/__init__.py", line 1919, in <module>
+    gl._create_shadow_window()
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/lib/python3.9/site-packages/pyglet/gl/__init__.py", line 206, in _create_shadow_window
+    _shadow_window = Window(width=1, height=1, visible=False)
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/lib/python3.9/site-packages/pyglet/window/xlib/__init__.py", line 171, in __init__
+    super(XlibWindow, self).__init__(*args, **kwargs)
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/lib/python3.9/site-packages/pyglet/window/__init__.py", line 591, in __init__
+    display = pyglet.canvas.get_display()
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/lib/python3.9/site-packages/pyglet/canvas/__init__.py", line 94, in get_display
+    return Display()
+  File "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/lib/python3.9/site-packages/pyglet/canvas/xlib.py", line 123, in __init__
+    raise NoSuchDisplayException('Cannot connect to "%s"' % name)
+pyglet.canvas.xlib.NoSuchDisplayException: Cannot connect to "None"

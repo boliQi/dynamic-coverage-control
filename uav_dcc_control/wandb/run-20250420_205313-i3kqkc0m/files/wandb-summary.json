@@ -1,0 +1,1 @@
+{"coverage_rate":0.75625,"policy_loss":-0.008931075180208126,"value_loss":0.0744443545738856,"critic_grad_norm":0.34402331709861755,"_runtime":135.937246107,"actor_grad_norm":0.3594135642051697,"_wandb":{"runtime":135},"ratio":0.9992075562477112,"_step":49,"_timestamp":1.7451537259401388e+09,"reward":-3201.1502491968877,"dist_entropy":2.946438678105672}

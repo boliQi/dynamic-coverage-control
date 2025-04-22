@@ -1,0 +1,15 @@
+{"time":"2025-04-20T17:02:58.904669773+08:00","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/wandb/run-20250420_170258-h7wu2m3q/logs/debug-core.log"}
+{"time":"2025-04-20T17:02:59.39713444+08:00","level":"INFO","msg":"created new stream","id":"h7wu2m3q"}
+{"time":"2025-04-20T17:02:59.397158698+08:00","level":"INFO","msg":"stream: started","id":"h7wu2m3q"}
+{"time":"2025-04-20T17:02:59.397267102+08:00","level":"INFO","msg":"sender: started","stream_id":"h7wu2m3q"}
+{"time":"2025-04-20T17:02:59.397302344+08:00","level":"INFO","msg":"handler: started","stream_id":"h7wu2m3q"}
+{"time":"2025-04-20T17:02:59.397274556+08:00","level":"INFO","msg":"writer: Do: started","stream_id":"h7wu2m3q"}
+{"time":"2025-04-20T17:02:59.771308534+08:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-04-20T17:05:18.328697996+08:00","level":"INFO","msg":"stream: closing","id":"h7wu2m3q"}
+{"time":"2025-04-20T17:05:18.32872072+08:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-04-20T17:05:18.328747565+08:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-04-20T17:05:19.22674037+08:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-04-20T17:05:19.623747706+08:00","level":"INFO","msg":"handler: closed","stream_id":"h7wu2m3q"}
+{"time":"2025-04-20T17:05:19.623812205+08:00","level":"INFO","msg":"writer: Close: closed","stream_id":"h7wu2m3q"}
+{"time":"2025-04-20T17:05:19.623885904+08:00","level":"INFO","msg":"sender: closed","stream_id":"h7wu2m3q"}
+{"time":"2025-04-20T17:05:19.623975759+08:00","level":"INFO","msg":"stream: closed","id":"h7wu2m3q"}

@@ -1,0 +1,63 @@
+{
+  "os": "Linux-5.15.0-43-generic-x86_64-with-glibc2.35",
+  "python": "CPython 3.9.0",
+  "startedAt": "2025-04-20T06:49:00.262153Z",
+  "args": [
+    "0"
+  ],
+  "program": "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/train.py",
+  "codePath": "uav_dcc_control/train.py",
+  "git": {
+    "remote": "https://github.com/boliQi/dynamic-coverage-control.git",
+    "commit": "6fa656d2c213a881ab53e76a89651ab8f923ed85"
+  },
+  "email": "994043739@qq.com",
+  "root": "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control",
+  "host": "user",
+  "executable": "/data/guanyu/pycharm/dynamic-coverage-control/uav_dcc_control/.conda/envs/dcc/bin/python",
+  "codePathLocal": "train.py",
+  "cpu_count": 72,
+  "cpu_count_logical": 144,
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "gpu_count": 4,
+  "disk": {
+    "/": {
+      "total": "729356550144",
+      "used": "39504773120"
+    }
+  },
+  "memory": {
+    "total": "540649349120"
+  },
+  "cpu": {
+    "count": 72,
+    "countLogical": 144
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 4090",
+      "memoryTotal": "25757220864",
+      "cudaCores": 16384,
+      "architecture": "Ada"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 4090",
+      "memoryTotal": "25757220864",
+      "cudaCores": 16384,
+      "architecture": "Ada"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 4090",
+      "memoryTotal": "25757220864",
+      "cudaCores": 16384,
+      "architecture": "Ada"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 4090",
+      "memoryTotal": "25757220864",
+      "cudaCores": 16384,
+      "architecture": "Ada"
+    }
+  ],
+  "cudaVersion": "12.4"
+}
