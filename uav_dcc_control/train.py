@@ -13,6 +13,7 @@ if __name__ == "__main__":
 
     ptu.set_gpu_mode(torch.cuda.is_available(), gpu_id=int(sys.argv[1]))
     # endregion
+    # print(sys.argv[2])
 
     algo_cfg = OmegaConf.load("./config/algo_config/mappo.yaml")
     expt_cfg = OmegaConf.load("./config/expt.yaml")

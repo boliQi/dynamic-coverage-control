@@ -13,9 +13,11 @@ def make_env(cfg, **kwargs):
     def get_env_fn(rank, **kwargs):
         def init_env():
             if "uav_dcc" in cfg.env_file:
+                # env_file 指向envs.mpe.uav_dcc(参数在dcc.yaml中定义)
                 env_file = importlib.import_module("envs." + cfg.env_file)
                 # 这行代码的作用是从 env_file 中获取名为 cfg.env_class 的类或属性，并将其赋值给变量 Env。
                 # 这样，Env 就可以用作一个类，后续可以通过 Env() 实例化环境对象。
+                # cfg.env_class = "DCEnv"
                 Env = getattr(env_file, cfg.env_class)
                 # 通过scenario_name从env_file获取场景类给定对应的scenario为coverage
                 env = Env(
@@ -50,4 +52,5 @@ def make_env(cfg, **kwargs):
     if cfg.n_rollout_threads == 1:
         return DummyVecEnv([get_env_fn(0)])
     else:
+        # 是一个多进程环境管理器，来自 envs.wrappers 模块。它允许在多个独立的进程中运行环境实例，每个进程运行一个环境。
         return SubprocVecEnv([get_env_fn(i) for i in range(cfg.n_rollout_threads)])

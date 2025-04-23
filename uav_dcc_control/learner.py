@@ -131,6 +131,7 @@ class Learner:
         self._check_time = time.time()
 
     def train(self):
+        # Initializes the replay buffer with the initial observations from the environment.
         self.warmup(self.rl_buffer, self.train_envs)
 
         for iter_ in range(1, self.n_iters + 1):
@@ -193,12 +194,12 @@ class Learner:
             sr = np.array([info["coverage_rate"] for info in infos])
             _sr = np.max(np.vstack((_sr, sr)), axis=0)
 
-            if is_render:
-                r_envs.render()
-                time.sleep(0.025)
-                if self.save_gifs:
-                    frame = r_envs.render("rgb_array")
-                    frames.append(frame[0][0])  # 并行环境的list, render本身返回的也是list
+            # if is_render:
+            #     r_envs.render()
+            #     time.sleep(0.025)
+            #     if self.save_gifs:
+            #         frame = r_envs.render("rgb_array")
+            #         frames.append(frame[0][0])  # 并行环境的list, render本身返回的也是list
 
         self.compute(r_buffer)
 
@@ -215,6 +216,18 @@ class Learner:
         }
 
     def warmup(self, r_buffer, r_envs):
+        """
+        Initializes the replay buffer with the initial observations from the environment.
+        Args:
+            r_buffer (ReplayBuffer): The replay buffer to store observations and shared observations.
+            r_envs (Environment): The environment instance to reset and obtain initial observations.
+        Behavior:
+            - Resets the environment to obtain the initial observations.
+            - If centralized value function is used (`use_centralized_V` is True), 
+              reshapes and duplicates the observations to create shared observations for all agents.
+            - Stores the initial shared observations and observations in the replay buffer.
+        """
+        # obs的原始维度为（n_threads*n_agents,obs_dim），reshape后为（n_threads,n_agents*obs_dim）即全局观测
         obs = r_envs.reset()
         if self.use_centralized_V:
             share_obs = obs.reshape(r_buffer.n_rollout_threads, -1)

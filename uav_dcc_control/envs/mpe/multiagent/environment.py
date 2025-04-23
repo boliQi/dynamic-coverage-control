@@ -13,7 +13,7 @@ class MultiAgentEnv(gym.Env):
     metadata = {
         'render.modes': ['human', 'rgb_array']
     }
-
+    # world 为coverage.py中makeworld函数的返回值, 也就是CoverageWorld类的实例
     def __init__(self, world, reset_callback=None, reward_callback=None,
                  observation_callback=None, info_callback=None,
                  done_callback=None, shared_viewer=True):
@@ -23,7 +23,7 @@ class MultiAgentEnv(gym.Env):
         self.agents = self.world.policy_agents
         # set required vectorized gym env property
         self.n = len(world.policy_agents)
-        # scenario callbacks
+        # scenario callbacks   初始化参数在uav_dcc.py
         self.reset_callback = reset_callback
         self.reward_callback = reward_callback
         self.observation_callback = observation_callback
@@ -35,7 +35,7 @@ class MultiAgentEnv(gym.Env):
         self.discrete_action_input = False
         # if true, even the action is continuous, action will be performed discretely
         self.force_discrete_action = world.discrete_action if hasattr(world, 'discrete_action') else False
-        # if true, every agent has the same reward
+        # if true, every agent has the same reward   hasattr在检查world中是否有collaborative属性
         self.shared_reward = world.collaborative if hasattr(world, 'collaborative') else False
         self.time = 0
 
@@ -48,19 +48,24 @@ class MultiAgentEnv(gym.Env):
             if self.discrete_action_space:
                 u_action_space = spaces.Discrete(world.dim_p * 2 + 1)
                 # 创造一个1维的离散动作空间，动作空间的维度(即可选动作数量)为2*dim_p + 1
+                # 其中dim_p为2, 即x和y方向的动作（前后左右不动）dim_position
             else:
                 u_action_space = spaces.Box(low=-agent.u_range, high=+agent.u_range, shape=(world.dim_p,), dtype=np.float32)
                 # 创造一个1维的连续动作空间，动作空间的维度为dim_p
             if agent.movable:
                 total_action_space.append(u_action_space)
+                # print(u_action_space) Box(2,)
             # communication action space
             if self.discrete_action_space:
+                # dim_c = 0
                 c_action_space = spaces.Discrete(world.dim_c)
             else:
                 c_action_space = spaces.Box(low=0.0, high=1.0, shape=(world.dim_c,), dtype=np.float32)
+                # silent = True
             if not agent.silent:
                 total_action_space.append(c_action_space)
             # total action space
+            print(len(total_action_space))
             if len(total_action_space) > 1:
                 # all action spaces are discrete, so simplify to MultiDiscrete action space
                 if all([isinstance(act_space, spaces.Discrete) for act_space in total_action_space]):

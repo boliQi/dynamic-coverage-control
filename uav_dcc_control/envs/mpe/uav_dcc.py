@@ -18,6 +18,8 @@ class DCEnv:
             **kwargs):
         # assert scenario == "coverage"
         self.n_agents = num_agents
+        # 指向envs/mpe/multiagent/scenarios/init.py中的load函数
+        # load的文件为sceneries/coverage.py
         scenario = scenarios.load(scenario + ".py").Scenario(
             num_agents,
             num_pois,
@@ -27,7 +29,7 @@ class DCEnv:
             comm_force_scale,
             **kwargs
         )
-        # create world
+        # create world 为coverageworld类的实例
         world = scenario.make_world()
         # create multiagent environment
         self.env = MultiAgentEnv(world=world,
