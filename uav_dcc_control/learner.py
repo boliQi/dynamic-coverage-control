@@ -147,8 +147,8 @@ class Learner:
             else:
                 test_rollout_info = {}
 
-            if iter_ % self.render_interval == 0:
-                self.rollout(self.render_buffer, self.render_envs, is_render=True, iter_=iter_)
+            # if iter_ % self.render_interval == 0:
+            #     self.rollout(self.render_buffer, self.render_envs, is_render=True, iter_=iter_)
 
             if iter_ % self.log_interval == 0:
                 self.log(
@@ -194,12 +194,12 @@ class Learner:
             sr = np.array([info["coverage_rate"] for info in infos])
             _sr = np.max(np.vstack((_sr, sr)), axis=0)
 
-            # if is_render:
-            #     r_envs.render()
-            #     time.sleep(0.025)
-            #     if self.save_gifs:
-            #         frame = r_envs.render("rgb_array")
-            #         frames.append(frame[0][0])  # 并行环境的list, render本身返回的也是list
+            if is_render:
+                r_envs.render()
+                time.sleep(0.025)
+                if self.save_gifs:
+                    frame = r_envs.render("rgb_array")
+                    frames.append(frame[0][0])  # 并行环境的list, render本身返回的也是list
 
         self.compute(r_buffer)
 
