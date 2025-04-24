@@ -1,6 +1,6 @@
 seed: 0
 n_iters: 500
-eval_interval: 50
+eval_interval: 10
 render_interval: 50
 save_gifs: True
 save_interval: 50
