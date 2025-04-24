@@ -61,8 +61,8 @@ class CoverageWorld(World):
 
         p_force = [None for _ in range(len(self.agents))]
         p_force = self.apply_action_force(p_force)
-        if self.contact_force > 0:
-            p_force = self.apply_connect_force(p_force)
+        # if self.contact_force > 0:
+        #     p_force = self.apply_connect_force(p_force)
         self.integrate_state(p_force)
 
         self.update_energy()

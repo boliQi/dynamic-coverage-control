@@ -32,7 +32,10 @@ class DCEnv:
         # create world 为coverageworld类的实例
         world = scenario.make_world()
         # create multiagent environment
+        # scenario是coverage.py中的Scenario类的实例
+        # world是CoverageWorld类的实例
         self.env = MultiAgentEnv(world=world,
+                                #  这里是scenario中的reset_world函数
                                  reset_callback=scenario.reset_world,
                                  reward_callback=scenario.reward,
                                  observation_callback=scenario.observation,

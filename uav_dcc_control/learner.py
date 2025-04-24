@@ -125,7 +125,7 @@ class Learner:
         self.log_interval = self.cfg.log_interval
         if self.is_log_wandb:
             wandb.init(project=env_dir, group="mappo",
-                       name=self.expt_name, config=config_json, )
+                   name=self.expt_name, config=config_json, job_type="nocomforce")
         print("initial learner, done")
         self._start_time = time.time()
         self._check_time = time.time()

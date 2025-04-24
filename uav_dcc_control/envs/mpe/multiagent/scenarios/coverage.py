@@ -15,7 +15,9 @@ class Scenario(BaseScenario):
         self.pos_pois = np.load(
             os.path.join(os.path.dirname(__file__), "pos_pois.npy")
         )[0:num_pois, :]
+        # print(self.pos_pois) # 读取文件中的数据
         self.pos_pois = np.random.uniform(-1, 1, (num_pois, 2))
+        # print(self.pos_pois) # 生成随机位置
 
         self.r_cover = r_cover
         self.r_comm = r_comm
@@ -97,14 +99,17 @@ class Scenario(BaseScenario):
         return rew
 
     def observation(self, agent, world):
+        # 获得单个智能体的局部观测
         other_pos = []
         for other in world.agents:
             if other is agent:
                 continue
+            # 相对其他智能体的位置
             other_pos.append(other.state.p_pos - agent.state.p_pos)
 
         pos_pois = []
         for poi in world.landmarks:
+            # 相对其他poi的位置
             pos_pois.append(poi.state.p_pos - agent.state.p_pos)
             pos_pois.append([poi.energy, poi.m_energy, poi.done])
         return np.concatenate([agent.state.p_vel] + [agent.state.p_pos] + other_pos + pos_pois)

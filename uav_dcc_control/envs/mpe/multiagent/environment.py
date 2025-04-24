@@ -64,8 +64,7 @@ class MultiAgentEnv(gym.Env):
                 # silent = True
             if not agent.silent:
                 total_action_space.append(c_action_space)
-            # total action space
-            print(len(total_action_space))
+            # total action space 为动作+通信
             if len(total_action_space) > 1:
                 # all action spaces are discrete, so simplify to MultiDiscrete action space
                 if all([isinstance(act_space, spaces.Discrete) for act_space in total_action_space]):
