@@ -11,7 +11,7 @@ import numpy as np
 import torch
 import wandb
 from omegaconf import DictConfig, OmegaConf
-
+import pandas as pd
 from buffer.shared_buffer import SharedReplayBuffer
 # from buffer.separated_buffer import SeparatedReplayBuffer
 from envs.make_env import make_env
@@ -23,6 +23,10 @@ class Learner:
         # Convert the OmegaConf configuration object to a simple Namespace object for easier attribute access
         self.cfg = Namespace(**OmegaConf.to_container(cfg, resolve=True))
         utl.seed(self.cfg.seed)  # set seed for random, torch and np
+
+        # 0.offline
+        self.offline = self.cfg.offline
+        self.offtrain = self.cfg.offtrain
 
         # 1. env
         self.train_envs = make_env(cfg=self.cfg)
@@ -49,6 +53,7 @@ class Learner:
         from algos.mappo import MAPPOTrainer, MAPPOPolicy
         self.policy = MAPPOPolicy(
             self.cfg,
+            # 多个智能体拼接的观测空间
             self.train_envs.observation_space[0],
             self.share_observation_space,
             self.train_envs.action_space[0], )
@@ -58,6 +63,19 @@ class Learner:
         )
         print("initial agent: shared mappo, done")
 
+        # self.replay_buffer = ReplayBuffer(
+        if self.offline:
+            self.replay_buffer = SharedReplayBuffer(
+                self.cfg,
+                self.train_envs.observation_space[0],
+                self.share_observation_space,
+                self.train_envs.action_space[0],
+                replay_buffer=True
+            )
+        
+        if self.offtrain:
+            self.replay_buffer.load(save_folder=self.cfg.replay_buffer_path)
+        
         self.rl_buffer = SharedReplayBuffer(
             self.cfg,
             self.train_envs.observation_space[0],
@@ -125,25 +143,49 @@ class Learner:
         self.log_interval = self.cfg.log_interval
         if self.is_log_wandb:
             wandb.init(project=env_dir, group="mappo",
-                   name=self.expt_name, config=config_json, job_type="nocomforce")
+                   name=self.expt_name, config=config_json)
         print("initial learner, done")
         self._start_time = time.time()
         self._check_time = time.time()
 
     def train(self):
         # Initializes the replay buffer with the initial observations from the environment.
+        # if self.offtrain:
+        #     pass
+        # else:
         self.warmup(self.rl_buffer, self.train_envs)
 
         for iter_ in range(1, self.n_iters + 1):
             if self.use_linear_lr_decay:
                 self.trainer.policy.lr_decay(iter_, self.n_iters)
 
-            rollout_info = self.rollout(self.rl_buffer, self.train_envs)
-
-            rl_train_info = self.rl_update()
+            if self.offtrain: 
+                rollout_info = {}
+                transition = self.replay_buffer.sample(batch_size=self.max_ep_len) 
+                self.rl_buffer.share_obs[:self.max_ep_len] = transition[0]
+                self.rl_buffer.obs[:self.max_ep_len] = transition[1]
+                self.rl_buffer.rnn_states[:self.max_ep_len] = transition[2]
+                self.rl_buffer.rnn_states_critic[:self.max_ep_len] = transition[3]  
+                self.rl_buffer.actions[:self.max_ep_len] = transition[4]
+                self.rl_buffer.action_log_probs[:self.max_ep_len] = transition[5]
+                self.rl_buffer.value_preds[:self.max_ep_len] = transition[6]
+                self.rl_buffer.returns[:self.max_ep_len] = transition[7]
+                self.rl_buffer.rewards[:self.max_ep_len] = transition[8]
+                self.rl_buffer.masks[:self.max_ep_len] = transition[9]
+                self.rl_buffer.bad_masks[:self.max_ep_len] = transition[10]
+                self.rl_buffer.active_masks[:self.max_ep_len] = transition[11]
+           
+            else:
+                rollout_info = self.rollout(self.rl_buffer, self.train_envs)
+            
+            if self.offline and not self.offtrain:
+                rl_train_info = {}
+            else:
+                # 这里buffer还需要考虑到在iter之间的连续性
+                rl_train_info = self.rl_update()
 
             if iter_ % self.eval_interval == 0:
-                test_rollout_info = self.rollout(self.test_buffer, self.test_envs)
+                test_rollout_info = self.rollout(self.test_buffer, self.test_envs, test=True)
             else:
                 test_rollout_info = {}
 
@@ -158,12 +200,22 @@ class Learner:
                     test_rollout_info=test_rollout_info,
                 )
 
+            if iter_ == self.n_iters:
+                pass
+            # print(self.test_buffer.share_obs[0].shape)
+
             if self.is_save_model and (iter_ % self.save_interval == 0):
                 save_path = os.path.join(self.output_path, 'models_%d.pt' % iter_)
                 if self.is_save_model:
                     os.makedirs(save_path, exist_ok=True)
                     self.save_model(save_path)
                     print("model saved in %s" % save_path)
+
+        if self.offline and not self.offtrain:
+            save_path = os.path.join(self.output_path, 'replay_buffer')
+            os.makedirs(save_path, exist_ok=True)
+            self.replay_buffer.save(save_path)
+            print("replay buffer saved in %s" % save_path)
 
         if self.is_log_wandb:
             wandb.finish()
@@ -177,20 +229,34 @@ class Learner:
             print("eval_envs have been closed")
 
     # region functions 4 collect
-    def rollout(self, r_buffer, r_envs, is_render=False, iter_=0):
+    def rollout(self, r_buffer, r_envs, is_render=False, iter_=0, test=False):
+        # 更新环境和buffer的状态 这里需要更改，保证buffer和envs的状态一致
         self.warmup(r_buffer, r_envs)
         _rew = 0.
+        distance = 0.
         _sr = np.array([0. for _ in range(r_buffer.n_rollout_threads)])
         frames = []
+        trajactory = []
 
         for cur_step in range(self.max_ep_len):
+            # 每次rollout都从current_step=0开始，在跑数据
             (values, actions, action_log_probs, rnn_states,
              rnn_states_critic, actions_env) = self.collect(cur_step, r_buffer)
+            # obs是多线程下（无人机1观测，2，3...）
             obs, rewards, dones, infos = r_envs.step(actions_env)
+            # 相当于data是有的，那之前的都不需要
             data = (obs, rewards, dones, infos, values, actions,
                     action_log_probs, rnn_states, rnn_states_critic,)
             self.insert(data, r_buffer)
+
+            if self.offline:
+                if test:
+                    pass
+                else:
+                    self.insert(data, self.replay_buffer)
+
             _rew += np.mean(rewards)
+            distance += np.mean([info["max_dist"] for info in infos])
             sr = np.array([info["coverage_rate"] for info in infos])
             _sr = np.max(np.vstack((_sr, sr)), axis=0)
 
@@ -200,6 +266,20 @@ class Learner:
                 if self.save_gifs:
                     frame = r_envs.render("rgb_array")
                     frames.append(frame[0][0])  # 并行环境的list, render本身返回的也是list
+        #     if traj:
+        #         trajactory.append({"obs": obs})
+
+        # if traj:
+        #     traj_data = []
+        #     for step in trajactory:
+        #         for agent_idx, obs in enumerate(step["obs"]):
+        #             traj_data.append({
+        #                 "step": cur_step,
+        #                 "agent": agent_idx,
+        #                 "obs": obs.tolist(),
+        #             })
+        #     traj_df = pd.DataFrame(traj_data)
+        #     traj_df.to_csv(os.path.join(self.output_path, f"trajectory_{iter_}.csv"), index=False)
 
         self.compute(r_buffer)
 
@@ -210,8 +290,10 @@ class Learner:
                 format='GIF',
                 duration=0.1
             )
+
         return {
             "reward": _rew,
+            "distance": distance ,
             "coverage_rate": np.mean(_sr),
         }
 
@@ -320,6 +402,7 @@ class Learner:
         if self.is_log_wandb:
             for key, value in kwargs.items():
                 wandb.log(value, step=iter_)
+                # print(value)
 
         print("")
         print("******** iter: %d, iter_time: %.2fs, total_time: %.2fs" %

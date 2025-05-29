@@ -34,6 +34,7 @@ def make_env(cfg, **kwargs):
 
                 if cfg.seed is not None:
                     env.env.seed(cfg.seed + 1024 * rank)
+                    # print(rank)
                 return env
             else:
                 raise NotImplementedError("env_file: %s not found" % cfg.env_file)

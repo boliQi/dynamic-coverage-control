@@ -18,6 +18,7 @@ class DCEnv:
             **kwargs):
         # assert scenario == "coverage"
         self.n_agents = num_agents
+        print("num_agents:", num_agents)
         # 指向envs/mpe/multiagent/scenarios/init.py中的load函数
         # load的文件为sceneries/coverage.py
         scenario = scenarios.load(scenario + ".py").Scenario(
@@ -36,6 +37,7 @@ class DCEnv:
         # world是CoverageWorld类的实例
         self.env = MultiAgentEnv(world=world,
                                 #  这里是scenario中的reset_world函数
+                                # callback的都是单智能体的对应值
                                  reset_callback=scenario.reset_world,
                                  reward_callback=scenario.reward,
                                  observation_callback=scenario.observation,
@@ -51,6 +53,7 @@ class DCEnv:
     def step(self, actions):
         obs_n, reward_n, done_n, info_n = self.env.step(actions)
         info_n["coverage_rate"] = self.env.world.coverage_rate
+        info_n["max_dist"] = np.partition(self.env.world.dist_mat.flatten(), -(self.n_agents + 1))[-(self.n_agents + 1)]
         return obs_n, reward_n, done_n, info_n
 
     def reset(self):

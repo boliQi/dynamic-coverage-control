@@ -5,11 +5,62 @@ from utils.valuenorm import ValueNorm
 from utils.util import check
 import utils.pytorch_utils as ptu
 import pickle
-
+from scipy.spatial import KDTree
 import torch
+import torch.nn.functional as F
 from algos.r_actor_critic import R_Actor, R_Critic
 from utils.util import update_linear_schedule
 import os
+
+'''states = replay_buffer.state
+    actions = replay_buffer.action
+    data = np.hstack([args.beta * states, actions])
+
+    self.beta = beta
+        self.data = data
+        self.kd_tree = KDTree(data)
+        self,
+        data,
+        state_dim,
+        action_dim,
+        max_action,
+        device,
+        discount=0.99,
+        tau=0.005,
+        policy_noise=0.2,
+        noise_clip=0.5,
+        policy_freq=2,
+        actor_lr=3e-4,
+        critic_lr=3e-4,
+        alpha=2.5,
+        beta=2,  # [beta* state, action]
+        k=1,
+
+        问题：actor输出为action_dim的确定动作
+         pi = self.actor(state)
+            Q = self.critic.Q1(state, pi)
+            lmbda = self.alpha / Q.abs().mean().detach()
+            actor_loss = -lmbda * Q.mean()
+
+            ## Get the nearest neighbor
+            key = torch.cat([self.beta * state, pi], dim=1).detach().cpu().numpy()
+            _, idx = self.kd_tree.query(key, k=[self.k], workers=-1)
+            ## Calculate the regularization
+            nearest_neightbour = (
+                torch.tensor(self.data[idx][:, :, -self.action_dim :])
+                .squeeze(dim=1)
+                .to(self.device)
+            )
+            dc_loss = F.mse_loss(pi, nearest_neightbour)
+
+            # Optimize the actor
+            combined_loss = actor_loss + dc_loss
+            self.actor_optimizer.zero_grad()
+            combined_loss.backward()
+            self.actor_optimizer.step()
+
+'''
+
 
 
 class MAPPOPolicy:
@@ -100,6 +151,10 @@ class MAPPOTrainer:
         else:
             self.value_normalizer = None
 
+        # offline
+        self.beta = 2
+        self.k = 1
+
     def cal_value_loss(self, values, value_preds_batch, return_batch, active_masks_batch):
         value_pred_clipped = value_preds_batch + (values - value_preds_batch).clamp(-self.clip_param,
                                                                                     self.clip_param)
@@ -135,6 +190,38 @@ class MAPPOTrainer:
          value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch,
          adv_targ, available_actions_batch) = sample
         # sample解包的数据都是np.array, (max_ep_len, n_envs, xxx_dim)
+
+        # data = np.hstack([self.beta * obs_batch, actions_batch])
+        # kd_tree = KDTree(data)
+        # actions=[]
+        # print("actions_batch.shape:", obs_batch.shape)
+        # print("obs_batch.shape:", obs_batch[0])
+        # for cur_step in range(obs_batch.shape[0]):
+        #     # 计算当前step的动作
+        #     # 这里的share_obs_batch是一个batch的观测值, 不是一个env的观测值
+        #     # obs_batch是一个env的观测值, 不是一个batch的观测值
+        #     # rnn_states_batch是一个batch的rnn状态, 不是一个env的rnn状态
+        #     # masks_batch是一个batch的mask, 不是一个env的mask
+        #     # actions_batch是一个batch的动作, 不是一个env的动作
+        #     # value_preds_batch是一个batch的价值预测值, 不是一个env的价值预测值
+        #     (value, action, action_log_prob, rnn_states, rnn_states_critic) = \
+        #     self.policy.get_actions(
+        #         np.concatenate(share_obs_batch[cur_step]),
+        #         np.concatenate(obs_batch[cur_step]),
+        #         np.concatenate(rnn_states_batch[cur_step]),
+        #         np.concatenate(rnn_states_critic_batch[cur_step]),
+        #         np.concatenate(masks_batch[cur_step]),
+        #     )  # [n_envs, n_agents, dim]
+        #     actions.append(action)
+        # key = torch.cat([self.beta * obs_batch, actions], dim=1).detach().cpu().numpy()
+        # _, idx = kd_tree.query(key, k=[self.k], workers=-1)
+        # ## Calculate the regularization
+        # nearest_neightbour = (
+        #     torch.tensor(data[idx][:, :, -actions_batch.shape[0] :])
+        #     .squeeze(dim=1)
+        #     .to(ptu.device)
+        # )
+        # dc_loss = F.mse_loss(actions, nearest_neightbour)
 
         old_action_log_probs_batch = check(old_action_log_probs_batch).to(**self.tpdv)
         adv_targ = check(adv_targ).to(**self.tpdv)
@@ -202,6 +289,7 @@ class MAPPOTrainer:
 
         for epoch in range(self.ppo_epoch):
             if self._use_recurrent_policy:
+                # 生成一个minibatch的训练数据
                 data_generator = buffer.recurrent_generator(advantages, self.num_mini_batch, self.data_chunk_length)
             elif self._use_naive_recurrent:
                 data_generator = buffer.naive_recurrent_generator(advantages, self.num_mini_batch)
@@ -209,6 +297,7 @@ class MAPPOTrainer:
                 data_generator = buffer.feed_forward_generator(advantages, self.num_mini_batch)
 
             for sample in data_generator:
+                # print(sample)
                 value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights \
                     = self.ppo_update(sample, update_actor)
 
@@ -242,6 +331,7 @@ class MAPPOTrainer:
     def load_model(self, load_path):
         load_path = os.path.join(load_path, "agent.pkl")
         with open(load_path, 'rb') as f:
+            # self.policy = torch.load(f)
             self.policy = pickle.load(f)
             self.policy.actor.to(ptu.device)
             self.policy.critic.to(ptu.device)

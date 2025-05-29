@@ -11,7 +11,6 @@ class CoverageWorld(World):
         self.dist_mat = np.zeros([4, 4])  # agents之间的距离矩阵, 对角线为1e5
         self.adj_mat = np.zeros([4, 4])  # 标准r_comm下的邻接矩阵, 对角线为0
         # self.damping = 0.25
-
         # 对连通保持聚合力的修正
         self.contact_force *= comm_force_scale  # 修正拉力倍数
         self.comm_r_scale = comm_r_scale  # 产生拉力的半径 = r_comm * comm_r_scale
@@ -61,8 +60,9 @@ class CoverageWorld(World):
 
         p_force = [None for _ in range(len(self.agents))]
         p_force = self.apply_action_force(p_force)
-        # if self.contact_force > 0:
-        #     p_force = self.apply_connect_force(p_force)
+        # 加入联通力
+        if self.contact_force > 0:
+            p_force = self.apply_connect_force(p_force)
         self.integrate_state(p_force)
 
         self.update_energy()
@@ -71,6 +71,7 @@ class CoverageWorld(World):
         # 更新邻接矩阵adj_mat和adj_mat_, adj对角线为0, dist对角线为1e5
         self.adj_mat = np.zeros([len(self.agents), len(self.agents)])
         self.adj_mat_ = np.zeros([len(self.agents), len(self.agents)])
+        self.dist_mat = np.zeros([len(self.agents), len(self.agents)])
         for a, agent_a in enumerate(self.agents):
             for b, agent_b in enumerate(self.agents):
                 self.dist_mat[a, b] = np.linalg.norm(agent_a.state.p_pos - agent_b.state.p_pos)
@@ -163,8 +164,8 @@ class CoverageWorld(World):
                 for agent in self.agents:
                     dist = np.linalg.norm(poi.state.p_pos - agent.state.p_pos)
                     if dist <= agent.r_cover:
-                        # poi.energy += (1 - dist / agent.r_cover)  # power随半径线性减少
-                        poi.energy += 1
+                        poi.energy += (1 - dist / agent.r_cover)  # power随半径线性减少
+                        # poi.energy += 1
                 if poi.energy >= poi.m_energy:
                     poi.done = True
                     poi.just = True

@@ -11,13 +11,14 @@ class Scenario(BaseScenario):
     def __init__(self, num_agents=4, num_pois=20, r_cover=0.25, r_comm=0.5, comm_r_scale=0.9, comm_force_scale=0.5):
         # agents的数量, 起飞位置, poi的数量和起飞位置
         self.num_agents = num_agents
+        print("coveragenum_agents:", num_agents)
         self.num_pois = num_pois
         self.pos_pois = np.load(
             os.path.join(os.path.dirname(__file__), "pos_pois.npy")
         )[0:num_pois, :]
         # print(self.pos_pois) # 读取文件中的数据
         self.pos_pois = np.random.uniform(-1, 1, (num_pois, 2))
-        # print(self.pos_pois) # 生成随机位置
+        # print(self.pos_pois)  #测试
 
         self.r_cover = r_cover
         self.r_comm = r_comm
@@ -39,8 +40,11 @@ class Scenario(BaseScenario):
         #                   np.array([0, world.bb]), np.array([0, -world.bb])]
 
         world.collaborative = True
-        num_agents = 4
-        num_landmarks = 20
+        # num_agents = 4
+        # num_landmarks = 20
+        num_agents = self.num_agents
+        num_landmarks = self.num_pois
+        print("world.num_agents:", num_agents)
 
         world.agents = [Agent() for _ in range(num_agents)]  # 代表UAV, size为覆盖面积
         world.landmarks = [Landmark() for _ in range(num_landmarks)]
@@ -84,7 +88,7 @@ class Scenario(BaseScenario):
         for i, poi in enumerate(world.landmarks):
             if not poi.done:
                 dists = [np.linalg.norm(ag.state.p_pos - poi.state.p_pos) for ag in world.agents]
-                rew -= min(dists)
+                # rew -= min(dists)
                 # 距离poi最近的uav, 二者之间的距离作为负奖励, 该poi的energy_to_cover为乘数
             elif poi.just:
                 rew += self.rew_cover
@@ -94,6 +98,7 @@ class Scenario(BaseScenario):
         for i, agent in enumerate(world.agents):
             abs_pos = np.abs(agent.state.p_pos)
             rew += np.sum(abs_pos[abs_pos > 1] - 1) * self.rew_out
+            # 判断是否越界
             if (abs_pos > 1.5).any():
                 rew += self.rew_out
         return rew

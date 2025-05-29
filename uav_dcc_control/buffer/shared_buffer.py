@@ -12,8 +12,14 @@ def _cast(x):
 
 
 class SharedReplayBuffer(object):
-    def __init__(self, cfg, obs_space, cent_obs_space, act_space):
-        self.episode_length = cfg.max_ep_len
+    def __init__(self, cfg, obs_space, cent_obs_space, act_space, replay_buffer=False):
+        # self.offline = cfg.offline
+        self.replay_buffer = replay_buffer
+        if replay_buffer:
+            self.episode_length = cfg.replay_buffer_length
+            self.episode_length = int(self.episode_length)
+        else:
+            self.episode_length = cfg.max_ep_len
         self.n_rollout_threads = cfg.n_rollout_threads
         self.hidden_size = cfg.algo_hidden_size
         self.recurrent_N = cfg.recurrent_N
@@ -68,6 +74,7 @@ class SharedReplayBuffer(object):
         self.active_masks = np.ones_like(self.masks)
 
         self.step = 0
+        self.size = 0
 
     def insert(self, share_obs, obs, rnn_states_actor, rnn_states_critic, actions, action_log_probs,
                value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
@@ -103,6 +110,7 @@ class SharedReplayBuffer(object):
             self.available_actions[self.step + 1] = available_actions.copy()
 
         self.step = (self.step + 1) % self.episode_length
+        self.size = min(self.size + 1, self.episode_length)
 
     def chooseinsert(self, share_obs, obs, rnn_states, rnn_states_critic, actions, action_log_probs,
                      value_preds, rewards, masks, bad_masks=None, active_masks=None, available_actions=None):
@@ -236,9 +244,12 @@ class SharedReplayBuffer(object):
                           num_mini_batch))
             mini_batch_size = batch_size // num_mini_batch
 
+        # 生成一个随机的索引数组包括（0，batchsize-1）
         rand = torch.randperm(batch_size).numpy()
+        # 将随机索引数组分成num_mini_batch个小批次
         sampler = [rand[i * mini_batch_size:(i + 1) * mini_batch_size] for i in range(num_mini_batch)]
 
+        # 将缓冲区中的数据展平为二维数组，形状为 [batch_size, feature_dim]
         share_obs = self.share_obs[:-1].reshape(-1, *self.share_obs.shape[3:])
         obs = self.obs[:-1].reshape(-1, *self.obs.shape[3:])
         rnn_states = self.rnn_states[:-1].reshape(-1, *self.rnn_states.shape[3:])
@@ -485,3 +496,65 @@ class SharedReplayBuffer(object):
             yield share_obs_batch, obs_batch, rnn_states_batch, rnn_states_critic_batch, actions_batch,\
                   value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch,\
                   adv_targ, available_actions_batch
+            
+    
+    def save(self, save_folder):
+        np.save(f"{save_folder}_share_obs.npy", self.share_obs[:self.size])
+        np.save(f"{save_folder}_obs.npy", self.obs[:self.size])
+        np.save(f"{save_folder}_rnn_states_critic.npy", self.rnn_states_critic[:self.size])
+        np.save(f"{save_folder}_rnn_states.npy", self.rnn_states[:self.size])
+        np.save(f"{save_folder}_actions.npy", self.actions[:self.size])
+        np.save(f"{save_folder}_action_log_probs.npy", self.action_log_probs[:self.size])
+        np.save(f"{save_folder}_value_preds.npy", self.value_preds[:self.size])
+        np.save(f"{save_folder}_returns.npy", self.returns[:self.size])
+        np.save(f"{save_folder}_rewards.npy", self.rewards[:self.size])
+        np.save(f"{save_folder}_masks.npy", self.masks[:self.size])
+        np.save(f"{save_folder}_bad_masks.npy", self.bad_masks[:self.size])
+        np.save(f"{save_folder}_active_masks.npy", self.active_masks[:self.size])
+
+    def load(self, save_folder, size=-1):
+        reward_buffer = np.load(f"{save_folder}_rewards.npy")
+        
+        # Adjust crt_size if we're using a custom size
+        size = min(int(size), self.episode_length) if size > 0 else self.episode_length
+        self.size = min(reward_buffer.shape[0], size)
+
+        self.share_obs[:self.size] = np.load(f"{save_folder}_share_obs.npy")[:self.size]
+        self.obs[:self.size] = np.load(f"{save_folder}_obs.npy")[:self.size]
+        self.rnn_states_critic[:self.size] = np.load(f"{save_folder}_rnn_states_critic.npy")[:self.size]
+        self.rnn_states[:self.size] = np.load(f"{save_folder}_rnn_states.npy")[:self.size]
+        self.actions[:self.size] = np.load(f"{save_folder}_actions.npy")[:self.size]
+        self.action_log_probs[:self.size] = np.load(f"{save_folder}_action_log_probs.npy")[:self.size]
+        self.value_preds[:self.size] = np.load(f"{save_folder}_value_preds.npy")[:self.size]
+        self.returns[:self.size] = np.load(f"{save_folder}_returns.npy")[:self.size]
+        self.rewards[:self.size] = reward_buffer[:self.size]
+        self.masks[:self.size] = np.load(f"{save_folder}_masks.npy")[:self.size]
+        self.bad_masks[:self.size] = np.load(f"{save_folder}_bad_masks.npy")[:self.size]
+        self.active_masks[:self.size] = np.load(f"{save_folder}_active_masks.npy")[:self.size]
+        self.available_actions = None
+
+    def sample(self, batch_size):
+        start = np.random.randint(0, self.size - batch_size + 1)
+        ind = np.arange(start, start + batch_size)
+        # ind = np.random.randint(0, self.size, size=batch_size)
+
+        transition = [
+        np.array(self.share_obs[ind]),
+        np.array(self.obs[ind]),
+        np.array(self.rnn_states[ind]),
+        np.array(self.rnn_states_critic[ind]),
+        np.array(self.actions[ind]),
+        np.array(self.action_log_probs[ind]),
+        np.array(self.value_preds[ind]),
+        np.array(self.returns[ind]),
+        np.array(self.rewards[ind]),
+        np.array(self.masks[ind]),
+        np.array(self.bad_masks[ind]),
+        np.array(self.active_masks[ind])
+        ]
+
+        # # reward shaping, r = scale * r + shift, from CQL, FisherBRC, IQL, etc.
+        # # a common trick used for sparse reward env
+        # transition[2] = self.scale * transition[2] + self.shift
+
+        return transition

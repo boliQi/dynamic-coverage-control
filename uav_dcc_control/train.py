@@ -23,9 +23,6 @@ if __name__ == "__main__":
     torch.set_num_threads(cfg.n_training_threads)
     os.makedirs(cfg.main_save_path, exist_ok=True)
 
-    cfg.log_wandb = False
-    cfg.save_model = True
-
     learner = Learner(cfg)
     learner.train()
 

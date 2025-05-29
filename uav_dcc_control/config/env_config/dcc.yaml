@@ -1,9 +1,9 @@
 env_file: mpe.uav_dcc
 env_class: DCEnv
 scenario_name: "coverage"
-
-num_agents: 4
-num_pois: 20
+# 4,20
+num_agents: 6
+num_pois: 30
 max_ep_len: 150
 r_cover: 0.2
 r_comm: 0.4

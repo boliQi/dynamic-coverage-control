@@ -1,19 +1,23 @@
 seed: 0
-n_iters: 500
-eval_interval: 10
-render_interval: 50
-save_gifs: True
-save_interval: 50
+n_iters: 2000
+eval_interval: 1
+render_interval: 20
+save_gifs: False
+save_interval: 200
 log_wandb: True
 log_interval: 1
 save_model: True
 load_model: False
 load_buffer_path: None
 main_save_path: "results/"
-load_model_path: "results/dcc/xxxx_xxxx_sdx/models_xxx.pt"
+buffer_save_path: 'results/buffer/'
+load_model_path: "results/uav_dcc/0420_1448_sd0/models_2000.pt"
 hidden_sizes_mlp: [64]  # mlp encoder hidden size
 lr: 5e-4
-
+replay_buffer_length: 2e5
+offline: False
+replay_buffer_path: "results/uav_dcc/replay_buffer/replay_buffer"
+offtrain: False
 
 
 
